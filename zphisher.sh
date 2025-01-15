@@ -93,7 +93,7 @@
 __version__="2.3.5"
 
 ## DEFAULT HOST & PORT
-HOST='127.0.0.1'
+HOST='0.0.0.0'
 PORT='8080' 
 
 ## ANSI colors (FG & BG)
@@ -414,27 +414,28 @@ start_localhost() {
 ## Tunnel selection
 tunnel_menu() {
 	{ clear; banner_small; }
-	cat <<- EOF
+	start_localhost
+	# cat <<- EOF
 
-		${RED}[${WHITE}01${RED}]${ORANGE} Localhost
-		${RED}[${WHITE}02${RED}]${ORANGE} Cloudflared  ${RED}[${CYAN}Auto Detects${RED}]
-		${RED}[${WHITE}03${RED}]${ORANGE} LocalXpose   ${RED}[${CYAN}NEW! Max 15Min${RED}]
+	# 	${RED}[${WHITE}01${RED}]${ORANGE} Localhost
+	# 	${RED}[${WHITE}02${RED}]${ORANGE} Cloudflared  ${RED}[${CYAN}Auto Detects${RED}]
+	# 	${RED}[${WHITE}03${RED}]${ORANGE} LocalXpose   ${RED}[${CYAN}NEW! Max 15Min${RED}]
 
-	EOF
+	# EOF
 
-	read -p "${RED}[${WHITE}-${RED}]${GREEN} Select a port forwarding service : ${BLUE}"
+	# read -p "${RED}[${WHITE}-${RED}]${GREEN} Select a port forwarding service : ${BLUE}"
 
-	case $REPLY in 
-		1 | 01)
-			start_localhost;;
-		2 | 02)
-			start_cloudflared;;
-		3 | 03)
-			start_loclx;;
-		*)
-			echo -ne "\n${RED}[${WHITE}!${RED}]${RED} Invalid Option, Try Again..."
-			{ sleep 1; tunnel_menu; };;
-	esac
+	# case $REPLY in 
+	# 	1 | 01)
+	# 		start_localhost;;
+	# 	2 | 02)
+	# 		start_cloudflared;;
+	# 	3 | 03)
+	# 		start_loclx;;
+	# 	*)
+	# 		echo -ne "\n${RED}[${WHITE}!${RED}]${RED} Invalid Option, Try Again..."
+	# 		{ sleep 1; tunnel_menu; };;
+	# esac
 }
 
 ## Custom Mask URL
