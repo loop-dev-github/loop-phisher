@@ -222,7 +222,7 @@ banner_small() {
         	${BLUE}  ░█░░░█▀█░█▀█░█▀█
         	${BLUE}  ░█░░░█░█░█░█░█▀▀
         	${BLUE}  ░█▄▄░█▄█░█▄█░█░░${WHITE} ${__version__}
-    	EOF
+			EOF
 }
 
 ## Dependencies
